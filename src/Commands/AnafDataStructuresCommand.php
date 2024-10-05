@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace AntonioPrimera\AnafDataStructures\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class AnafDataStructuresCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'anaf-data-structures';
 
     public $description = 'My command';
 
