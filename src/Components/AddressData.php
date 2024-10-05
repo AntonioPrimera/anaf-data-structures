@@ -1,7 +1,9 @@
 <?php
 namespace AntonioPrimera\AnafDataStructures\Components;
 
-class AddressData
+use Spatie\LaravelData\Data;
+
+class AddressData extends Data
 {
     public function __construct(
         public string|null $city,

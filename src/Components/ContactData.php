@@ -1,7 +1,9 @@
 <?php
 namespace AntonioPrimera\AnafDataStructures\Components;
 
-class ContactData
+use Spatie\LaravelData\Data;
+
+class ContactData extends Data
 {
     public function __construct(
         public string|null $name,
