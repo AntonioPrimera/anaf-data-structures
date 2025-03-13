@@ -25,19 +25,29 @@ readonly class Cif implements Stringable
 
     //--- Public API --------------------------------------------------------------------------------------------------
 
-    public function withoutCountryCode(): string
+    /**
+     * Check if the cif has a country code. If a specific country code is provided, check
+     * for that specific country code, otherwise check if any country code is present.
+     */
+    public function hasCountryCode(string|null $countryCode = null): bool
     {
-        return $this->hasCountryCode() ? substr($this->cif, 2) : $this->cif;
+        return $countryCode
+            ? str_starts_with($this->cif, strtoupper($countryCode))
+            : preg_match('/^[A-Z]{2}/', $this->cif) === 1;
     }
 
-    public function hasCountryCode(): bool
+    function withoutCountryCode(): string
     {
-        return str_starts_with($this->cif, 'RO');
+        // Remove spaces and extract the numeric part
+        return preg_replace('/^[A-Z]{2}/', '', $this->cif);
     }
 
-    public function countryCode(): string|null
+    function countryCode(): ?string
     {
-        return $this->hasCountryCode() ? substr($this->cif, 0, 2) : null;
+        // Extract the country code if present
+        return preg_match('/^([A-Z]{2})/', $this->cif, $matches)
+            ? $matches[1]
+            : null;
     }
 
     public function is(Cif|string $cif): bool
@@ -54,6 +64,9 @@ readonly class Cif implements Stringable
 
     //--- Validation --------------------------------------------------------------------------------------------------
 
+    /**
+     * This only checks if the CIF is a valid romanian VAT number
+     */
     public function isValid(): bool
     {
         $cleanCif = $this->withoutCountryCode();
